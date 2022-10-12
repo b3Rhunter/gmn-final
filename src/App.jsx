@@ -423,6 +423,21 @@ function App(props) {
         Mint
       </button>
 
+      <a href="https://gmn-german-final.vercel.app/" target="_blank" rel="noreferrer"
+      style={{textDecoration: "none", color: "#fff"}}> 
+      <button className="mint"
+              style={{
+                position: "fixed",
+                bottom: "10px",
+                left: "100px",
+                display: "block",
+                width: "auto",
+                cursor: "pointer",
+                zIndex: "10",
+              }}
+              type="default"
+      >German Edition</button></a> 
+
       <div className="min-h-screen p-12">
         <div className="container mx-auto">
           <img className="flex logo" style={{ paddingTop: "100px" }} src={Logo} alt="logo"></img>
