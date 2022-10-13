@@ -43,25 +43,20 @@ export default function OnePost() {
         <div className="relative">
           <div className="absolute h-full w-full flex items-center justify-left p-2">
             {/* Title Section */}
-            <div className="p-3" style={{ borderRadius: "10px", width: "auto", marginTop: "300px", backgroundColor: "#000", opacity: "80%"}}>
+            <div style={{ borderRadius: "10px", width: "auto", paddingTop: "7px",paddingLeft: "7px", paddingRight: "7px", margin: "0", position: "absolute", top: "10px", left: "10px", backgroundColor: "#000", opacity: "80%"}}>
               <div className="flex justify-left text-white">
                 <img
                   src={urlFor(postData.authorImage).url()}
                   className="w-10 h-10 rounded-full"
                   alt="Author: Pub"
                 />
-                <h4 className=" flex items-left pl-2 text-2xl">
+                <h4 className=" flex items-left text-2xl">
                   {postData.name}
                 </h4>
               </div>
             </div>
           </div>
-          <img
-            className="w-full object-cover rounded-t"
-            src={urlFor(postData.mainImage).url()}
-            alt=""
-            style={{ height: "400px" }}
-          />
+
         </div>
         <div className="px-16 lg:px-48 py-12 lg:py-20 prose lg:prose-xl max-w-full" style={{textAlign: "justify"}}>
           <BlockContent
