@@ -27,6 +27,7 @@ import "./myCss.css";
 import OnePost from "./OnePost";
 import AllPosts from "./AllPosts";
 import gmnabi from "./gmnabi.json";
+import imageUrlBuilder from "@sanity/image-url";
 
 const { ethers } = require("ethers");
 /*
@@ -52,9 +53,9 @@ const { ethers } = require("ethers");
 const initialNetwork = NETWORKS.polygon; // <------- select your target frontend network (localhost, goerli, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
-const DEBUG = false;
+const DEBUG = true;
 const NETWORKCHECK = true;
-const USE_BURNER_WALLET = false; // toggle burner wallet feature
+const USE_BURNER_WALLET = true; // toggle burner wallet feature
 const USE_NETWORK_SELECTOR = false;
 
 const web3Modal = Web3ModalSetup();
@@ -252,6 +253,11 @@ function App(props) {
     setChange(!change);
   }
 
+  const builder = imageUrlBuilder(sanityClient);
+  function urlFor(source) {
+    return builder.image(source);
+  }
+
   const sendNotification = (type, data) => {
     return notification[type]({
       ...data,
@@ -262,11 +268,10 @@ function App(props) {
   useEffect(() => {
     sanityClient
       .fetch(
-        `*[_type == "post"] | order(publishedAt desc) {
-            title,
+        `*[_type == "post"]{
             slug,
-            publishedAt,
             "name": author->name,
+            "authorImage": author->image,
             mainImage{
               asset->{
                 _id,
@@ -484,13 +489,20 @@ function App(props) {
                       alt=""
                     />
                     <span className="block relative h-full flex justify-start items-start pr-4 pb-4">
-                      <h2 className=" text-lg font-bold px-3 py-3 text-red-100 flag">{post.title}</h2>
+                  
 
+                  
                       <h6
                         className=" font-bold px-3 py-3 text-red-100 flag"
                         style={{ position: "absolute", right: "0", bottom: "0" }}
                       >
-                        <span> Author:</span> <span> {post.name}</span>
+                        <span>                     
+                          <img
+                            src={urlFor(post.authorImage).url()}
+                            className="w-5 h-5 rounded-full"
+                            alt="Author: Pub" style={{float: "left", marginRight: "3px"}}
+                        /></span>
+                        <span> {post.name}</span>
                       </h6>
 
                       <span>
