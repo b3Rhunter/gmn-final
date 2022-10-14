@@ -37,6 +37,21 @@ box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.75);
 background-color: rgba(0, 0, 0, 0.75);
 }
 
+.addressDisplay {
+  background: #E8D0A0;
+background: linear-gradient(to right, #E8D0A0 0%, #AB854D 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+
+}
+
+.addressDisplay:hover {
+  background: #E8D0A0;
+  background: linear-gradient(to left, #E8D0A0 0%, #AB854D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .view-btn {
   color: #fff;
   border: 1px solid #fff;
