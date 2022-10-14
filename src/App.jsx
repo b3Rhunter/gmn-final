@@ -317,11 +317,11 @@ function App(props) {
 
       // notify user of sign-in
       sendNotification("success", {
-        message: "Signed in successfully",
+        message: "Verified GMN Holder",
       });
     } catch (error) {
       sendNotification("error", {
-        message: "Failed to Sign!",
+        message: "Verification Failed!",
         description: `Connection issue - ${error.message}`,
       });
     }
