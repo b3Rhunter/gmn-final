@@ -38,10 +38,29 @@ background-color: rgba(0, 0, 0, 0.75);
 }
 
 .view-btn {
-    -webkit-box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.75);
-box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.75);
-background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  margin: auto;
+  font-size: 1.5em;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  transition: 0.3s;
+}
+
+.view-btn:hover {
+  color: rgb(195, 167, 132);
+  cursor: pointer;
+  border: 1px solid rgb(195, 167, 132);
+  background-color:hsla(0,0%,0%,1);
+  box-shadow: 0px 0px 5px 0px rgba(255,255,255,0.75);
+-webkit-box-shadow: 0px 0px 5px 0px rgba(255,255,255,0.75);
+-moz-box-shadow: 0px 0px 5px 0px rgba(255,255,255,0.75);
 }
 
 .logo {
@@ -62,6 +81,7 @@ margin-top: -25px;
   padding-bottom: 10px;
   margin: auto;
   font-size: 1.5em;
+  transition: 0.3s;
 }
 
 .verify:hover {
@@ -89,6 +109,7 @@ margin-top: -25px;
   padding-bottom: 7px;
   border: solid 1px #fff;
   border-radius: 7px;
+  transition: 0.3s;
   
 }
 
