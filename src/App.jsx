@@ -509,15 +509,13 @@ function App(props) {
                       <span>
                         {isAuth && (
                           <Link to={"/" + post.slug.current} key={post.slug.current}>
-                            <Button
+                            <button
                               onClick={changeContent}
                               className="view-btn"
-                              type="primary"
-                              danger
                               style={{ position: "absolute", left: "10px", bottom: "10px" }}
                             >
                               view
-                            </Button>
+                            </button>
                           </Link>
                         )}
                       </span>
