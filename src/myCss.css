@@ -37,6 +37,11 @@ box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.75);
 background-color: rgba(0, 0, 0, 0.75);
 }
 
+.headline h1 {
+  text-align: center;
+
+}
+ 
 .addressDisplay {
   background: #E8D0A0;
 background: linear-gradient(to right, #E8D0A0 0%, #AB854D 100%);
