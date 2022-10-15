@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import sanityClient from "./client.js";
 import BlockContent from "@sanity/block-content-to-react";
 import imageUrlBuilder from "@sanity/image-url";
-import "./myCss.css";
+
 
 const builder = imageUrlBuilder(sanityClient);
 function urlFor(source) {
@@ -43,7 +43,7 @@ export default function OnePost() {
 
   return (
     <div className="background min-h-screen p-12">
-      <div className="container shadow-lg mx-auto bg-red-100 rounded-lg">
+      <div className="container shadow-lg mx-auto rounded-lg postBg">
         <div className="relative">
           <div className="absolute h-full w-full flex items-center justify-left p-2">
             {/* Title Section */}
@@ -94,7 +94,7 @@ export default function OnePost() {
           </div>
 
         </div>
-        <div className="px-16 lg:px-48 py-12 lg:py-20 prose lg:prose-xl max-w-full headline" style={{textAlign: "justify"}}>
+        <div className="px-16 lg:px-48 py-12 lg:py-20 prose lg:prose-xl max-w-full" style={{textAlign: "justify"}}>
           <BlockContent
             blocks={postData.body}
             projectId={sanityClient.clientConfig.projectId}
