@@ -37,6 +37,38 @@ box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.75);
 background-color: rgba(0, 0, 0, 0.75);
 }
 
+.creds {
+  width: 80px;
+  overflow: hidden;
+  white-space: nowrap;
+  border-radius: 50px;
+  transition: 1s;
+}
+
+
+.creds img {
+  margin-right: 50px;
+}
+
+.credText {
+  font-size: 1.2em;
+  padding-top: 5px;
+  color: rgba(0,0,0,0);
+}
+
+.creds:hover .credText {
+  color: #fff;
+}
+
+.creds:hover img {
+  margin-right: 0px;
+}
+
+.creds:hover {
+  width: 33%;
+  border-radius: 25px;
+}
+
 .headline h1 {
   text-align: center;
 
