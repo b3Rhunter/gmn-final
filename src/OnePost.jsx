@@ -47,17 +47,17 @@ export default function OnePost() {
         <div className="relative">
           <div className="absolute h-full w-full flex items-center justify-left p-2">
             {/* Title Section */}
-            <div style={{ borderRadius: "10px", width: "auto", paddingTop: "7px",paddingLeft: "7px", paddingRight: "7px", margin: "0", position: "absolute", top: "10px", left: "10px", backgroundColor: "#000", opacity: "80%"}}>
+            <div className="creds" style={{  position: "absolute", top: "10px", left: "10px", backgroundColor: "#000", opacity: "80%"}}>
               <div className="flex justify-left text-white pl-5 pr-5 pt-2">
                 <img
                   src={urlFor(postData.authorImage).url()}
                   className="w-10 h-10 rounded-full"
-                  alt="Author: Pub"
+                  alt="Author"
                 />
-                <h4 className=" flex items-left text-2xl pl-2">
+                <h4 className=" flex items-left  pl-2 credText">
                   Author:
                 </h4>
-                <h4 className=" flex items-left text-2xl pl-1">
+                <h4 className=" flex items-left  pl-1 credText">
                   {postData.name}
                 </h4>
 
@@ -69,24 +69,24 @@ export default function OnePost() {
                   className="w-10 h-10 rounded-full"
                   alt="Editor"
                 />
-                <h4 className=" flex items-left text-2xl pl-2">
+                <h4 className=" flex items-left  pl-2 credText">
                   Editor:
                 </h4>
-                <h4 className=" flex items-left text-2xl pl-1">
+                <h4 className=" flex items-left  pl-1 credText">
                   {postData.editor}
                 </h4>
             </div>
 
-            <div className="flex justify-left text-white pl-5 pr-5 pt-2 pb-1">
+            <div className="flex justify-left text-white pl-5 pr-5 pt-2 pb-2">
               <img
                   src={urlFor(postData.graphicsImage).url()}
                   className="w-10 h-10 rounded-full"
                   alt="Designer"
                 />
-                <h4 className=" flex items-left text-2xl pl-2">
+                <h4 className=" flex items-left  pl-2 credText">
                   Designer:
                 </h4>
-                <h4 className=" flex items-left text-2xl pl-1">
+                <h4 className=" flex items-left  pl-1 credText">
                   {postData.graphics}
                 </h4>
             </div>
