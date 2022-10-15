@@ -16,6 +16,26 @@ code {
 @import url("https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css");
 @import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap");
 
+@font-face {
+  font-family: dirtyHeadline;
+  src: url(./fonts/Dirty\ Headline.ttf);
+}
+
+h1 {
+  font-family: dirtyHeadline;
+  font-size: 7rem !important;
+  text-align: center;
+  position: relative;
+  bottom: -0.5em;
+  color: #282727 !important;
+}
+
+.postBg {
+  background-image: url("./images/bg.png");
+  background-size: cover;
+  align-items: center;
+}
+
 .cursive {
   font-family: "Amatic SC", cursive;
   font-weight: 700;
