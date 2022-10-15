@@ -37,6 +37,8 @@ box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.75);
 background-color: rgba(0, 0, 0, 0.75);
 }
 
+
+
 .creds {
   width: 80px;
   overflow: hidden;
@@ -121,7 +123,7 @@ margin-left: auto;
 margin-right: auto;
 width: 20%;
 margin-top: -25px;
-
+margin-bottom: 24px;
 }
 
 .homeStyle {
@@ -24090,7 +24092,7 @@ margin-top: -25px;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
+    width: 350px;
     margin-top: -25px;
     }
     .payButton {
@@ -24100,3 +24102,23 @@ margin-top: -25px;
         width: 50%;
     }
   }
+
+  @media only screen and (max-width: 700px) {
+    .logo {
+     display: block;
+     margin-left: auto;
+     margin-right: auto;
+     width: 350px;
+     margin-top: -25px;
+     }
+    }
+
+  @media only screen and (max-width: 376px) {
+    .logo {
+     display: block;
+     margin-left: auto;
+     margin-right: auto;
+     width: 350px;
+     margin-top: -25px;
+     }
+    }
