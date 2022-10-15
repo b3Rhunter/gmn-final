@@ -30,7 +30,9 @@ export default function OnePost() {
             "name": author->name,
             "authorImage": author->image,
             "editor": editor->name,
-            "editorImage": editor->image
+            "editorImage": editor->image,
+            "graphics": graphics->name,
+            "graphicsImage": graphics-> image
           }`
       )
       .then((data) => setPostData(data[0]))
@@ -72,6 +74,20 @@ export default function OnePost() {
                 </h4>
                 <h4 className=" flex items-left text-2xl pl-1">
                   {postData.editor}
+                </h4>
+            </div>
+
+            <div className="flex justify-left text-white pl-5 pr-5 pt-2 pb-1">
+              <img
+                  src={urlFor(postData.graphicsImage).url()}
+                  className="w-10 h-10 rounded-full"
+                  alt="Designer"
+                />
+                <h4 className=" flex items-left text-2xl pl-2">
+                  Designer:
+                </h4>
+                <h4 className=" flex items-left text-2xl pl-1">
+                  {postData.graphics}
                 </h4>
             </div>
             </div>
