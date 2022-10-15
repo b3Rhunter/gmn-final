@@ -18,7 +18,7 @@ code {
 
 @font-face {
   font-family: dirtyHeadline;
-  src: url(./fonts/Dirty\ Headline.ttf);
+  src: url("./fonts/headline.ttf");
 }
 
 h1 {
