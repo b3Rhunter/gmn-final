@@ -445,9 +445,9 @@ function App(props) {
               type="default"
       >German Edition</button></a> 
 
-      <div className="min-h-screen p-12">
+      <div className=" p-12 mobile" style={{marginBottom: "0px"}}>
         <div className="container mx-auto">
-          <img className="flex logo" style={{ paddingTop: "100px" }} src={Logo} alt="logo"></img>
+          <img className=" logo" style={{ paddingTop: "100px"}} src={Logo} alt="logo"></img>
 
           <button className="verify"
                   style={{
@@ -490,8 +490,6 @@ function App(props) {
                       alt=""
                     />
                     <span className="block relative h-full flex justify-start items-start pr-4 pb-4">
-                  
-
                   
                       <h6
                         className=" font-bold px-3 py-3 text-red-100 flag"
