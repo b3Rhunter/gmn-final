@@ -28,7 +28,9 @@ export default function OnePost() {
             },
             body,
             "name": author->name,
-            "authorImage": author->image
+            "authorImage": author->image,
+            "editor": editor->name,
+            "editorImage": editor->image
           }`
       )
       .then((data) => setPostData(data[0]))
@@ -44,16 +46,34 @@ export default function OnePost() {
           <div className="absolute h-full w-full flex items-center justify-left p-2">
             {/* Title Section */}
             <div style={{ borderRadius: "10px", width: "auto", paddingTop: "7px",paddingLeft: "7px", paddingRight: "7px", margin: "0", position: "absolute", top: "10px", left: "10px", backgroundColor: "#000", opacity: "80%"}}>
-              <div className="flex justify-left text-white">
+              <div className="flex justify-left text-white pl-5 pr-5 pt-2">
                 <img
                   src={urlFor(postData.authorImage).url()}
                   className="w-10 h-10 rounded-full"
                   alt="Author: Pub"
                 />
-                <h4 className=" flex items-left text-2xl">
+                <h4 className=" flex items-left text-2xl pl-2">
+                  Author:
+                </h4>
+                <h4 className=" flex items-left text-2xl pl-1">
                   {postData.name}
                 </h4>
+
               </div>
+
+              <div className="flex justify-left text-white pl-5 pr-5 pt-2">
+              <img
+                  src={urlFor(postData.editorImage).url()}
+                  className="w-10 h-10 rounded-full"
+                  alt="Editor"
+                />
+                <h4 className=" flex items-left text-2xl pl-2">
+                  Editor:
+                </h4>
+                <h4 className=" flex items-left text-2xl pl-1">
+                  {postData.editor}
+                </h4>
+            </div>
             </div>
           </div>
 
