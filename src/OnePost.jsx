@@ -43,7 +43,7 @@ export default function OnePost() {
 
   return (
     <div className="background min-h-screen p-12">
-      <div className="container shadow-lg mx-auto rounded-lg postBg">
+      <div className="container shadow-lg mx-auto rounded-lg" style={{backgroundColor: "#f5f5f5"}}>
         <div className="relative">
           <div className="absolute h-full w-full flex items-center justify-left p-2">
             {/* Title Section */}
