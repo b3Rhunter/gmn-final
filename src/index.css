@@ -47,6 +47,8 @@ h1 {
   border-radius: 5px;
 }
 
+.web3modal-modal-lightbox { z-index: 1000 !important; }
+
 @media only screen and (max-width: 700px) {
   h1 {
     font-size: 3rem !important;
