@@ -1,4 +1,4 @@
-import { Button, Col, Menu, Row, notification } from "antd";
+import { Button, Col, Menu, Row, notification, Modal } from "antd";
 import "antd/dist/antd.css";
 import {
   useBalance,
@@ -244,6 +244,7 @@ function App(props) {
   const [isAuth, setIsAuth] = useState(false);
   const [single, setSingle] = useState(true);
   const [isSigning, setIsSigning] = useState(false);
+  const [open, setOpen] = useState();
 
   function changeContent() {
     setSingle(!single);
@@ -354,6 +355,10 @@ function App(props) {
     }
   };
 
+
+
+
+
   return (
     <div className="App background">
       {/* ✏️ Edit the header and change the title to your project name */}
@@ -385,6 +390,24 @@ function App(props) {
           </div>
         </div>
       </Header>
+
+      <Modal  
+                        visible={open}
+                        onOk={() => {
+                          setOpen(!open);
+                         }}
+                        onCancel={() => {
+                        setOpen(!open);
+                        }}
+                        width={"100%"}
+                        >
+                          <Row>
+                            <Col>
+                            <Route  component={OnePost} path="/:slug" />
+                            </Col>
+                          </Row>
+                         
+                        </Modal>
 
       <button   className="mint"
                 onClick={async () => {
@@ -473,7 +496,7 @@ function App(props) {
         </div>
       </div>
 
-      {single ? (
+      
         <div className="min-h-screen p-12">
           <div className="container mx-auto">
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -506,9 +529,11 @@ function App(props) {
 
                       <span>
                         {isAuth && (
-                          <Link to={"/" + post.slug.current} key={post.slug.current}>
+                          <Link to={"/" + post.slug.current} key={post.slug.current}> 
                             <button
-                              onClick={changeContent}
+                              onClick={() => {
+                                setOpen(!open);
+                              }}
                               className="view-btn"
                               style={{ position: "absolute", left: "10px", bottom: "10px" }}
                             >
@@ -517,15 +542,16 @@ function App(props) {
                           </Link>
                         )}
                       </span>
+
                     </span>
                   </span>
                 ))}
             </div>
           </div>
         </div>
-      ) : (
-        <Route component={OnePost} path="/:slug" />
-      )}
+ 
+
+      
 
       <NetworkDisplay
         NETWORKCHECK={NETWORKCHECK}
@@ -537,6 +563,7 @@ function App(props) {
       />
 
       <Switch>
+    
         <Route exact path="/">
           {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
           <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} />
