@@ -9,16 +9,15 @@ import {
   useUserProviderAndSigner,
 } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, Component } from "react";
 import { Link, Route, Switch, useLocation } from "react-router-dom";
 import "./App.css";
-import { Account, Contract, Header, NetworkDisplay, FaucetHint, NetworkSwitch } from "./components";
+import { Account, Contract, Header, NetworkDisplay, NetworkSwitch } from "./components";
 import { NETWORKS, INFURA_ID } from "./constants";
 import externalContracts from "./contracts/external_contracts";
 // contracts
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
-import { Home, ExampleUI, Hints, Subgraph } from "./views";
 import { useStaticJsonRPC } from "./hooks";
 
 import sanityClient from "./client.js";
@@ -28,6 +27,47 @@ import OnePost from "./OnePost";
 import AllPosts from "./AllPosts";
 import gmnabi from "./gmnabi.json";
 import imageUrlBuilder from "@sanity/image-url";
+import { render } from "react-dom";
+
+import MailchimpSubscribe from "react-mailchimp-subscribe";
+
+const CustomForm = ({ status, message, onValidated }) => {
+  let email;
+  const submit = () =>
+    email &&
+    email.value.indexOf("@") > -1 &&
+    onValidated({
+      EMAIL: email.value
+    });
+
+    return (
+      <div>
+        {status === "sending" && <div style={{ color: "blue" }}>sending...</div>}
+        {status === "error" && (
+          <div
+            style={{ color: "red" }}
+            dangerouslySetInnerHTML={{ __html: message }}
+          />
+        )}
+        {status === "success" && (
+          <div
+            style={{ color: "green" }}
+            dangerouslySetInnerHTML={{ __html: message }}
+          />
+        )}
+        <input
+          style={{ fontSize: "1em", padding: 5, borderRadius: "5px", backgroundColor: "rgba(255,255,255,0.1)" }}
+          ref={node => (email = node)}
+          type="email"
+          placeholder="email"
+        />
+        <br />
+        <button style={{ fontSize: "1em", padding: 5, marginTop: "10px", border: "1px solid #fff", borderRadius: "10px" }} onClick={submit}>
+          Subscribe
+        </button>
+      </div>
+    );
+  };
 
 const { ethers } = require("ethers");
 /*
@@ -288,8 +328,6 @@ function App(props) {
 
   console.log(allPostsData);
 
- 
-
   // Sign In With Ethereum
 
   const handleSignIn = async () => {
@@ -330,9 +368,8 @@ function App(props) {
     setIsSigning(false);
   };
 
-
-   // Token Gate 🚫
-   const validateUser = async (message, address, signature) => {
+  // Token Gate 🚫
+  const validateUser = async (message, address, signature) => {
     // validate signature
     const recovered = ethers.utils.verifyMessage(message, signature);
     if (recovered.toLowerCase() !== address.toLowerCase()) {
@@ -355,8 +392,7 @@ function App(props) {
     }
   };
 
-
-
+  const url = `https://club.us21.list-manage.com/subscribe/post?u=c54de56e5060de81f0c522756&id=ff1bf812c0`;
 
 
   return (
@@ -391,54 +427,66 @@ function App(props) {
         </div>
       </Header>
 
-      <Modal  
-                        visible={open}
-                        onOk={() => {
-                          setOpen(!open);
-                         }}
-                        onCancel={() => {
-                        setOpen(!open);
-                        }}
-                        width={"100%"}
-                        >
-                          <Row>
-                            <Col>
-                            <Route  component={OnePost} path="/:slug" />
-                            </Col>
-                          </Row>
-                         
-                        </Modal>
+      <div className="subscribe">
+        <MailchimpSubscribe
+          url="https://gmail.us21.list-manage.com/subscribe/post?u=9dac44c0db4dc93dfe2c9fec9&id=d51751ba11"
+          render={({ subscribe, status, message }) => (
+            <CustomForm
+              status={status}
+              message={message}
+              onValidated={formData => subscribe(formData)}
+            />
+          )}
+        />
+      </div>
 
-      <button   className="mint"
-                onClick={async () => {
-                  /* look how you call setPurpose on your contract: */
-                  /* notice how you pass a call back for tx updates too */
-                const contract = new ethers.Contract("0xfD18418c4AEf8edcAfF3EFea4A4bE2cC1cF2E580", gmnabi, userSigner);
+      <Modal
+        visible={open}
+        onOk={() => {
+          setOpen(!open);
+        }}
+        onCancel={() => {
+          setOpen(!open);
+        }}
+        width={"100%"}
+      >
+        <Row>
+          <Col>
+            <Route component={OnePost} path="/:slug" />
+          </Col>
+        </Row>
+      </Modal>
 
-                  const cost = contract.cost(); 
-                  const result = tx(contract.mint(1, {value: cost}), update => {
-                    console.log("📡 Transaction Update:", update);
-                    if (update && (update.status === "confirmed" || update.status === 1)) {
-                      
-                      sendNotification("success", {
-                        message: "Minted",
-                        description: `You can now view any article of your choice.`,
-                      });
-                      console.log(" 🍾 Transaction " + update.hash + " finished!");
-                      console.log(
-                        " ⛽️ " +
-                          update.gasUsed +
-                          "/" +
-                          (update.gasLimit || update.gas) +
-                          " @ " +
-                          parseFloat(update.gasPrice) / 1000000000 +
-                          " gwei",
-                      );
-                    }
-                  });
-                  console.log("awaiting metamask/web3 confirm result...", result);
-                  console.log(await result);
-                }}
+      <button
+        className="mint"
+        onClick={async () => {
+          /* look how you call setPurpose on your contract: */
+          /* notice how you pass a call back for tx updates too */
+          const contract = new ethers.Contract("0xfD18418c4AEf8edcAfF3EFea4A4bE2cC1cF2E580", gmnabi, userSigner);
+
+          const cost = contract.cost();
+          const result = tx(contract.mint(1, { value: cost }), update => {
+            console.log("📡 Transaction Update:", update);
+            if (update && (update.status === "confirmed" || update.status === 1)) {
+              sendNotification("success", {
+                message: "Minted",
+                description: `You can now view any article of your choice.`,
+              });
+              console.log(" 🍾 Transaction " + update.hash + " finished!");
+              console.log(
+                " ⛽️ " +
+                  update.gasUsed +
+                  "/" +
+                  (update.gasLimit || update.gas) +
+                  " @ " +
+                  parseFloat(update.gasPrice) / 1000000000 +
+                  " gwei",
+              );
+            }
+          });
+          console.log("awaiting metamask/web3 confirm result...", result);
+          console.log(await result);
+        }}
         style={{
           position: "fixed",
           bottom: "10px",
@@ -453,35 +501,48 @@ function App(props) {
         Mint
       </button>
 
-      <a href="https://gmn-german-final.vercel.app/" target="_blank" rel="noreferrer"
-      style={{textDecoration: "none", color: "#fff"}}> 
-      <button className="mint"
-              style={{
-                position: "fixed",
-                bottom: "10px",
-                left: "100px",
-                display: "block",
-                width: "auto",
-                cursor: "pointer",
-                zIndex: "10",
-              }}
-              type="default"
-      >German Edition</button></a> 
+      <a
+        href="https://gmn-german-final.vercel.app/"
+        target="_blank"
+        rel="noreferrer"
+        style={{ textDecoration: "none", color: "#fff" }}
+      >
+        <button
+          className="mint"
+          style={{
+            position: "fixed",
+            bottom: "10px",
+            left: "100px",
+            display: "block",
+            width: "auto",
+            cursor: "pointer",
+            zIndex: "10",
+          }}
+          type="default"
+        >
+          German Edition
+        </button>
+      </a>
 
-      <div className=" p-12 mobile" style={{marginBottom: "0px"}}>
+      <div className=" p-12 mobile" style={{ marginBottom: "0px" }}>
         <div className="container mx-auto">
-          <img className=" logo" style={{ paddingTop: "100px"}} src={Logo} alt="logo"></img>
+          <img className=" logo" style={{ paddingTop: "100px" }} src={Logo} alt="logo"></img>
 
-          <button className="verify"
-                  style={{
-                    marginBottom: "12px",
-                    display: "block",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    width: "15%",
-                    minWidth: "175px"
-                   }} 
-                   onClick={handleSignIn} loading={isSigning}>Verify</button>
+          <button
+            className="verify"
+            style={{
+              marginBottom: "12px",
+              display: "block",
+              marginLeft: "auto",
+              marginRight: "auto",
+              width: "15%",
+              minWidth: "175px",
+            }}
+            onClick={handleSignIn}
+            loading={isSigning}
+          >
+            Verify
+          </button>
 
           <input
             style={{
@@ -496,62 +557,58 @@ function App(props) {
         </div>
       </div>
 
-      
-        <div className="min-h-screen p-12">
-          <div className="container mx-auto">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {allPostsData &&
-                allPostsData.map((post, index) => (
-                  <span
-                    className="block h-64 relative rounded shadow leading-snug bg-black border-l-8 "
-                    style={{ borderColor: "#313131" }}
-                    key={index}
-                  >
-                    <img
-                      className="w-full h-full rounded-r object-cover absolute"
-                      src={post.mainImage.asset.url}
-                      alt=""
-                    />
-                    <span className="block relative h-full flex justify-start items-start pr-4 pb-4">
-                  
-                      <h6
-                        className=" font-bold px-3 py-3 text-red-100 flag"
-                        style={{ position: "absolute", right: "0", bottom: "0" }}
-                      >
-                        <span>                     
-                          <img
-                            src={urlFor(post.authorImage).url()}
-                            className="w-5 h-5 rounded-full"
-                            alt="Author: Pub" style={{float: "left", marginRight: "3px"}}
-                        /></span>
-                        <span> {post.name}</span>
-                      </h6>
-
+      <div className="min-h-screen p-12">
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {allPostsData &&
+              allPostsData.map((post, index) => (
+                <span
+                  className="block h-64 relative rounded shadow leading-snug bg-black border-l-8 "
+                  style={{ borderColor: "#313131" }}
+                  key={index}
+                >
+                  <img
+                    className="w-full h-full rounded-r object-cover absolute"
+                    src={post.mainImage.asset.url}
+                    alt=""
+                  />
+                  <span className="block relative h-full flex justify-start items-start pr-4 pb-4">
+                    <h6
+                      className=" font-bold px-3 py-3 text-red-100 flag"
+                      style={{ position: "absolute", right: "0", bottom: "0" }}
+                    >
                       <span>
-                        {isAuth && (
-                          <Link to={"/" + post.slug.current} key={post.slug.current}> 
-                            <button
-                              onClick={() => {
-                                setOpen(!open);
-                              }}
-                              className="view-btn"
-                              style={{ position: "absolute", left: "10px", bottom: "10px" }}
-                            >
-                              view
-                            </button>
-                          </Link>
-                        )}
+                        <img
+                          src={urlFor(post.authorImage).url()}
+                          className="w-5 h-5 rounded-full"
+                          alt="Author: Pub"
+                          style={{ float: "left", marginRight: "3px" }}
+                        />
                       </span>
+                      <span> {post.name}</span>
+                    </h6>
 
+                    <span>
+                      {isAuth && (
+                        <Link to={"/" + post.slug.current} key={post.slug.current}>
+                          <button
+                            onClick={() => {
+                              setOpen(!open);
+                            }}
+                            className="view-btn"
+                            style={{ position: "absolute", left: "10px", bottom: "10px" }}
+                          >
+                            view
+                          </button>
+                        </Link>
+                      )}
                     </span>
                   </span>
-                ))}
-            </div>
+                </span>
+              ))}
           </div>
         </div>
- 
-
-      
+      </div>
 
       <NetworkDisplay
         NETWORKCHECK={NETWORKCHECK}
@@ -563,11 +620,6 @@ function App(props) {
       />
 
       <Switch>
-    
-        <Route exact path="/">
-          {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
-          <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} />
-        </Route>
         <Route exact path="/debug">
           {/*
                 🎛 this scaffolding is full of commonly used components
@@ -583,58 +635,6 @@ function App(props) {
             address={address}
             blockExplorer={blockExplorer}
             contractConfig={contractConfig}
-          />
-        </Route>
-        <Route path="/hints">
-          <Hints
-            address={address}
-            yourLocalBalance={yourLocalBalance}
-            mainnetProvider={mainnetProvider}
-            price={price}
-          />
-        </Route>
-        <Route path="/exampleui">
-          <ExampleUI
-            address={address}
-            userSigner={userSigner}
-            mainnetProvider={mainnetProvider}
-            localProvider={localProvider}
-            yourLocalBalance={yourLocalBalance}
-            price={price}
-            tx={tx}
-            writeContracts={writeContracts}
-            readContracts={readContracts}
-            purpose={purpose}
-          />
-        </Route>
-        <Route path="/mainnetdai">
-          <Contract
-            name="DAI"
-            customContract={mainnetContracts && mainnetContracts.contracts && mainnetContracts.contracts.DAI}
-            signer={userSigner}
-            provider={mainnetProvider}
-            address={address}
-            blockExplorer="https://etherscan.io/"
-            contractConfig={contractConfig}
-            chainId={1}
-          />
-          {/*
-            <Contract
-              name="UNI"
-              customContract={mainnetContracts && mainnetContracts.contracts && mainnetContracts.contracts.UNI}
-              signer={userSigner}
-              provider={mainnetProvider}
-              address={address}
-              blockExplorer="https://etherscan.io/"
-            />
-            */}
-        </Route>
-        <Route path="/subgraph">
-          <Subgraph
-            subgraphUri={props.subgraphUri}
-            tx={tx}
-            writeContracts={writeContracts}
-            mainnetProvider={mainnetProvider}
           />
         </Route>
       </Switch>
