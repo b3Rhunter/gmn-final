@@ -31,7 +31,17 @@ import { render } from "react-dom";
 
 import MailchimpSubscribe from "react-mailchimp-subscribe";
 
+
+
 const CustomForm = ({ status, message, onValidated }) => {
+
+  const sendNotification = (type, data) => {
+    return notification[type]({
+      ...data,
+      placement: "bottomRight",
+    });
+  };
+
   let email;
   const submit = () =>
     email &&
@@ -42,27 +52,21 @@ const CustomForm = ({ status, message, onValidated }) => {
 
     return (
       <div>
-        {status === "sending" && <div style={{ color: "blue" }}>sending...</div>}
-        {status === "error" && (
-          <div
-            style={{ color: "red" }}
-            dangerouslySetInnerHTML={{ __html: message }}
-          />
-        )}
-        {status === "success" && (
-          <div
-            style={{ color: "green" }}
-            dangerouslySetInnerHTML={{ __html: message }}
-          />
-        )}
+     
+        {status === "success" && 
+                sendNotification("success", {
+                  message: "Subscribed!",
+                  description: `Thank you for subscribing to Good Morning News`,
+                })
+        }
         <input
-          style={{ fontSize: "1em", padding: 5, borderRadius: "5px", backgroundColor: "rgba(255,255,255,0.1)" }}
+          style={{ fontSize: "1em", padding: 5, borderRadius: "5px", backgroundColor: "rgba(255,255,255,0.1)", marginRight: "5px" }}
           ref={node => (email = node)}
           type="email"
           placeholder="email"
         />
-        <br />
-        <button style={{ fontSize: "1em", padding: 5, marginTop: "10px", border: "1px solid #fff", borderRadius: "10px" }} onClick={submit}>
+
+        <button className="sub-btn" style={{ fontSize: "1em", padding: 5, marginTop: "10px", border: "1px solid #fff", borderRadius: "10px" }} onClick={submit}>
           Subscribe
         </button>
       </div>
