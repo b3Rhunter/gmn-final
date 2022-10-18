@@ -451,9 +451,11 @@ function App(props) {
         onOk={() => {
           setOpen(!open);
         }}
+        okText="Mint(coming soon...)"
         onCancel={() => {
           setOpen(!open);
         }}
+        cancelText="Close"
         width={"100%"}
       >
         <Row>
