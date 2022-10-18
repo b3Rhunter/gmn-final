@@ -431,25 +431,24 @@ function App(props) {
         </div>
       </Header>
 
-      <div className="editorContainer">
-        <a href="https://gmn.sanity.studio">
-          <p className="editorText">Editors</p>
-        </a>
-      </div>
+
 
 {isAuth && (
-      <div className="subscribe">
-        <MailchimpSubscribe
-          url="https://gmail.us21.list-manage.com/subscribe/post?u=9dac44c0db4dc93dfe2c9fec9&id=d51751ba11"
-          render={({ subscribe, status, message }) => (
-            <CustomForm
-              status={status}
-              message={message}
-              onValidated={formData => subscribe(formData)}
-            />
-          )}
-        />
-      </div>
+      <><div className="subscribe">
+          <MailchimpSubscribe
+            url="https://gmail.us21.list-manage.com/subscribe/post?u=9dac44c0db4dc93dfe2c9fec9&id=d51751ba11"
+            render={({ subscribe, status, message }) => (
+              <CustomForm
+                status={status}
+                message={message}
+                onValidated={formData => subscribe(formData)} />
+            )} />
+        </div><div className="editorContainer">
+            <a href="https://gmn.sanity.studio" target="_blank">
+              <p className="editorText">Editors</p>
+            </a>
+          </div></>
+      
 )}
 
       <Modal
