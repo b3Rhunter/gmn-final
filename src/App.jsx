@@ -431,6 +431,7 @@ function App(props) {
         </div>
       </Header>
 
+{isAuth && (
       <div className="subscribe">
         <MailchimpSubscribe
           url="https://gmail.us21.list-manage.com/subscribe/post?u=9dac44c0db4dc93dfe2c9fec9&id=d51751ba11"
@@ -443,6 +444,7 @@ function App(props) {
           )}
         />
       </div>
+)}
 
       <Modal
         visible={open}
