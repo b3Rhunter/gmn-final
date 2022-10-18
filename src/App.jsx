@@ -360,7 +360,7 @@ function App(props) {
 
       // notify user of sign-in
       sendNotification("success", {
-        message: "Verified GMN Holder",
+        message: "Welcome back " + address.substr(0, 6) + "...",
       });
     } catch (error) {
       sendNotification("error", {
@@ -430,6 +430,12 @@ function App(props) {
           </div>
         </div>
       </Header>
+
+      <div className="editorContainer">
+        <a href="https://gmn.sanity.studio">
+          <p className="editorText">Editors</p>
+        </a>
+      </div>
 
 {isAuth && (
       <div className="subscribe">
