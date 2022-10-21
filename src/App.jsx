@@ -3,9 +3,7 @@ import "antd/dist/antd.css";
 import {
   useBalance,
   useContractLoader,
-  useContractReader,
   useGasPrice,
-  useOnBlock,
   useUserProviderAndSigner,
 } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
@@ -27,6 +25,7 @@ import gmnabi from "./gmnabi.json";
 import imageUrlBuilder from "@sanity/image-url";
 
 import MailchimpSubscribe from "react-mailchimp-subscribe";
+import Title from "antd/lib/skeleton/Title";
 
 
 
@@ -196,15 +195,9 @@ function App(props) {
   // If you want to bring in the mainnet DAI contract it would look like:
   const mainnetContracts = useContractLoader(mainnetProvider, contractConfig);
 
-  // If you want to call a function on a new block
-  useOnBlock(mainnetProvider, () => {
-    console.log(`⛓ A new mainnet block is here: ${mainnetProvider._lastBlockNumber}`);
-  });
 
-  // Then read your DAI balance like:
-  const myMainnetDAIBalance = useContractReader(mainnetContracts, "DAI", "balanceOf", [
-    "0x34aA3F359A9D614239015126635CE7732c18fDF3",
-  ]);
+
+
 
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
@@ -235,7 +228,7 @@ function App(props) {
       console.log("💵 yourMainnetBalance", yourMainnetBalance ? ethers.utils.formatEther(yourMainnetBalance) : "...");
       console.log("📝 readContracts", readContracts);
       console.log("🌍 DAI contract on mainnet:", mainnetContracts);
-      console.log("💵 yourMainnetDAIBalance", myMainnetDAIBalance);
+
       console.log("🔐 writeContracts", writeContracts);
     }
   }, [
@@ -248,7 +241,6 @@ function App(props) {
     writeContracts,
     mainnetContracts,
     localChainId,
-    myMainnetDAIBalance,
   ]);
 
   const loadWeb3Modal = useCallback(async () => {
@@ -300,6 +292,7 @@ function App(props) {
     sanityClient
       .fetch(
         `*[_type == "post"] | order(publishedAt desc){
+            title,
             slug,
             publishedAt,
             "name": author->name,
@@ -381,7 +374,30 @@ function App(props) {
       return false;
     }
   };
- 
+
+
+
+   function myFunction() {
+    // Declare variables
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById('myInput');
+    filter = input.value;
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName('li');
+  
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+      a = li[i].getElementsByTagName("a")[0];
+      txtValue = a.textContent || a.innerText;
+      if (txtValue.indexOf(filter) > -1) {
+        li[i].style.display = "";
+      } else {
+        li[i].style.display = "none";
+      }
+    }
+  }
+
+
 
   return (
     <div className="App background">
@@ -543,27 +559,35 @@ function App(props) {
             Verify
           </button>
 
-        {isAuth && (
-          <input
-            className="searchBar"
-            style={{
-              marginBottom: "10px",
-              border: "1px solid #fff",
-              borderRadius: "5px",
-              paddingLeft: "5px",
-              backgroundColor: "rgba(255,255,255,0.1)",
-            }}
-            placeholder="search..."
-          ></input>
+ 
+          {isAuth && (
+        
+          <><input type="text" id="myInput" onKeyUp={myFunction} className="searchBar" placeholder="Search..."></input><div>
+              <ul id="myUL">
+                {allPostsData &&
+                  allPostsData.map((post, index) => (
+                    <li style={{ display: "none" }}>
+                      <Link to={"/" + post.slug.current} key={post.slug.current}>
+                        <a
+                          onClick={() => {
+                            setOpen(!open);
+                          } }>
+                          {post.title}
+                        </a>
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+            </div></>
+      
           )}
-
 
         </div>
       </div>
 
       <div className="min-h-screen p-12">
         <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="allPosts">
             {allPostsData &&
               allPostsData.map((post, index) => (
                 <span

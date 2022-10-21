@@ -10,6 +10,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+
+
+#myUL {
+  /* Remove default list styling */
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#myUL li a {
+  margin-top: -1px; /* Prevent double borders */
+  padding: 12px; /* Add some padding */
+  text-decoration: none; /* Remove default text underline */
+  font-size: 18px; /* Increase the font-size */
+  color: rgb(249, 244, 244); /* Add a black text color */
+ /* Make it into a block element to fill the whole list */
+}
+
+#myUL li a:hover:not(.header) {
+  color: rgb(195, 167, 132);
+}
+
 /* src/index.css */
 
 @import url("https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css");
@@ -22,7 +44,7 @@ code {
 }
 
 .subscribe {
-  position: absolute;
+  position: fixed;
   top: 65px;
   right: 20px;
   z-index: 0;
@@ -48,9 +70,11 @@ code {
 @keyframes slideInFromBottom {
   0% {
     transform: translateY(100%);
+    opacity: 0;
   }
   100% {
     transform: translateY(0);
+    opacity: 1;
   }
 }
 
@@ -118,6 +142,9 @@ h1 {
 
 .searchBar {
   margin-bottom: 10px;
+  padding-left: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
   border: 1px solid #fff;
   border-radius: 5px;
   background-color: rgba(255,255,255,0.1);
