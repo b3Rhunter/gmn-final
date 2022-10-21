@@ -1,4 +1,4 @@
-import { Button, Col, Menu, Row, notification, Modal } from "antd";
+import { Col, Row, notification, Modal } from "antd";
 import "antd/dist/antd.css";
 import {
   useBalance,
@@ -9,14 +9,13 @@ import {
   useUserProviderAndSigner,
 } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
-import React, { useCallback, useEffect, useState, Component } from "react";
-import { Link, Route, Switch, useLocation } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import { Link, Route, Switch} from "react-router-dom";
 import "./App.css";
 import { Account, Contract, Header, NetworkDisplay, NetworkSwitch } from "./components";
 import { NETWORKS, INFURA_ID } from "./constants";
 import externalContracts from "./contracts/external_contracts";
 // contracts
-import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
 
@@ -24,12 +23,13 @@ import sanityClient from "./client.js";
 import Logo from "./images/bp_logo_512.png";
 import "./myCss.css";
 import OnePost from "./OnePost";
-import AllPosts from "./AllPosts";
 import gmnabi from "./gmnabi.json";
 import imageUrlBuilder from "@sanity/image-url";
-import { render } from "react-dom";
 
 import MailchimpSubscribe from "react-mailchimp-subscribe";
+
+
+
 
 
 
@@ -119,7 +119,6 @@ function App(props) {
   const [injectedProvider, setInjectedProvider] = useState();
   const [address, setAddress] = useState();
   const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[0]);
-  const location = useLocation();
 
   const targetNetwork = NETWORKS[selectedNetwork];
 
@@ -207,9 +206,6 @@ function App(props) {
     "0x34aA3F359A9D614239015126635CE7732c18fDF3",
   ]);
 
-  // keep track of a variable from the contract in the local React state:
-  const purpose = useContractReader(readContracts, "YourContract", "purpose");
-
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
   console.log("🏷 Resolved austingriffith.eth as:",addressFromENS)
@@ -283,20 +279,10 @@ function App(props) {
     }
   }, [loadWeb3Modal]);
 
-  const [change, setChange] = useState(true);
   const [allPostsData, setAllPosts] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
-  const [single, setSingle] = useState(true);
   const [isSigning, setIsSigning] = useState(false);
   const [open, setOpen] = useState();
-
-  function changeContent() {
-    setSingle(!single);
-  }
-
-  function changeButton() {
-    setChange(!change);
-  }
 
   const builder = imageUrlBuilder(sanityClient);
   function urlFor(source) {
@@ -395,9 +381,7 @@ function App(props) {
       return false;
     }
   };
-
-  const url = `https://club.us21.list-manage.com/subscribe/post?u=c54de56e5060de81f0c522756&id=ff1bf812c0`;
-
+ 
 
   return (
     <div className="App background">
@@ -433,6 +417,8 @@ function App(props) {
 
 
 
+
+
 {isAuth && (
       <><div className="subscribe">
           <MailchimpSubscribe
@@ -444,7 +430,7 @@ function App(props) {
                 onValidated={formData => subscribe(formData)} />
             )} />
         </div><div className="editorContainer">
-            <a href="https://gmn.sanity.studio" target="_blank">
+            <a href="https://gmn-sanity.vercel.app/" target="_blank" rel="noreferrer">
               <p className="editorText">Editors</p>
             </a>
           </div></>
@@ -557,7 +543,9 @@ function App(props) {
             Verify
           </button>
 
+        {isAuth && (
           <input
+            className="searchBar"
             style={{
               marginBottom: "10px",
               border: "1px solid #fff",
@@ -567,6 +555,9 @@ function App(props) {
             }}
             placeholder="search..."
           ></input>
+          )}
+
+
         </div>
       </div>
 
