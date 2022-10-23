@@ -495,7 +495,7 @@ function App(props) {
           console.log("awaiting metamask/web3 confirm result...", result);
           console.log(await result);
         }}
-        okText="Mint Issue"
+        okText="Mint(BETA)"
         onCancel={() => {
           setOpen(!open);
         }}
