@@ -21,11 +21,15 @@ import sanityClient from "./client.js";
 import Logo from "./images/bp_logo_512.png";
 import "./myCss.css";
 import OnePost from "./OnePost";
+import newGmn from "./newGMN.json";
 import gmnabi from "./gmnabi.json";
 import imageUrlBuilder from "@sanity/image-url";
 
 import MailchimpSubscribe from "react-mailchimp-subscribe";
-import Title from "antd/lib/skeleton/Title";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
+
+
+
 
 
 
@@ -118,6 +122,7 @@ function App(props) {
   const [injectedProvider, setInjectedProvider] = useState();
   const [address, setAddress] = useState();
   const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[0]);
+
 
   const targetNetwork = NETWORKS[selectedNetwork];
 
@@ -377,7 +382,7 @@ function App(props) {
 
 
 
-   function myFunction() {
+   function search() {
     // Declare variables
     var input, filter, ul, li, a, i, txtValue;
     input = document.getElementById('myInput');
@@ -396,6 +401,7 @@ function App(props) {
       }
     }
   }
+
 
 
 
@@ -447,18 +453,49 @@ function App(props) {
             )} />
         </div><div className="editorContainer">
             <a href="https://gmn-sanity.vercel.app/" target="_blank" rel="noreferrer">
-              <p className="editorText">Editors</p>
+              <h6 className="editorText">Editors</h6>
             </a>
           </div></>
       
 )}
 
       <Modal
+        id="singleModal"
         visible={open}
-        onOk={() => {
-          setOpen(!open);
+        onOk={ async () => {
+
+          var getHeadline = "textContent" in document.body ? "textContent" : "innerText";
+          const headline = document.title = document.getElementsByTagName("h1")[0][getHeadline];
+          console.log(headline)
+
+          var getStory = "textContent" in document.body ? "textContent" : "innerText";
+          const story = document.title = document.getElementsByTagName("p")[0][getStory];
+          console.log(story)
+
+          const contract = new ethers.Contract("0x9f57701f08a502FAb3dF6AcE93B63910D3076E32", newGmn, userSigner);
+          const result = tx(contract.mint("" + story, "" + headline), update => {
+            console.log("📡 Transaction Update:", update);
+            if (update && (update.status === "confirmed" || update.status === 1)) {
+              sendNotification("success", {
+                message: "Minted",
+                description: `🙏Thank you for minting an issue of Good Morning News🙏`,
+              });
+              console.log(" 🍾 Transaction " + update.hash + " finished!");
+              console.log(
+                " ⛽️ " +
+                  update.gasUsed +
+                  "/" +
+                  (update.gasLimit || update.gas) +
+                  " @ " +
+                  parseFloat(update.gasPrice) / 1000000000 +
+                  " gwei",
+              );
+            }
+          });
+          console.log("awaiting metamask/web3 confirm result...", result);
+          console.log(await result);
         }}
-        okText="Mint(coming soon...)"
+        okText="Mint Issue"
         onCancel={() => {
           setOpen(!open);
         }}
@@ -468,6 +505,7 @@ function App(props) {
         <Row>
           <Col>
             <Route component={OnePost} path="/:slug" />
+    
           </Col>
         </Row>
       </Modal>
@@ -562,7 +600,7 @@ function App(props) {
  
           {isAuth && (
         
-          <><input type="text" id="myInput" onKeyUp={myFunction} className="searchBar" placeholder="Search..."></input><div>
+          <><input type="text" id="myInput" onKeyUp={search} className="searchBar" placeholder="Search..."></input><div>
               <ul id="myUL">
                 {allPostsData &&
                   allPostsData.map((post, index) => (

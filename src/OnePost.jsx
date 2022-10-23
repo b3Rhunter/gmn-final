@@ -13,6 +13,7 @@ function urlFor(source) {
 export default function OnePost() {
   const [postData, setPostData] = useState(null);
   const { slug } = useParams();
+  const [headline, setHeadline] = useState(null);
 
   useEffect(() => {
     sanityClient
@@ -40,6 +41,17 @@ export default function OnePost() {
   }, [slug]);
 
   if (!postData) return <div>Loading...</div>;
+
+
+
+
+const getHeadline = postData.title;
+const parseHeadline = JSON.stringify(getHeadline);
+
+
+console.log(parseHeadline)
+
+
 
   return (
     <div className="background min-h-screen p-12">
