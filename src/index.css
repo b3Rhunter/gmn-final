@@ -10,7 +10,79 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+.adSpace:hover {
+  box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.75) inset;
+-webkit-box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.75) inset;
+-moz-box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.75) inset;
+}
 
+.adSpace {
+  width: 175px;
+  height: 175px;
+  position: fixed;
+  right: 20px;
+  top: 150px;
+  background-color: #000;
+  border: 1px solid #fff;
+  border-radius: 25px;
+  padding: 24px;
+  transition: transform .2s;
+  animation: 1s ease-out 0s 1 slideInFromRight;
+}
+
+.adImage {
+  background-image: url(./images/spookyNewsie_profile.gif);
+  background-size: contain;
+  border-radius: 100%;
+  border: 1px solid #fff;
+  height: 80%;
+  margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}
+
+.adText {
+  font-family: horror;
+  text-decoration: none;
+  font-size: 1.2em;
+  color: #fff;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.adSpace2 {
+  width: 175px;
+  height: 175px;
+  position: fixed;
+  right: 20px;
+  top: 340px;
+  background-color: #000;
+  border: 1px solid #fff;
+  border-radius: 25px;
+  padding: 24px;
+  transition: transform .5s;
+  animation: 1.5s ease-out 0s 1 slideInFromRight;
+}
+
+
+.adText2 {
+  font-family: monospace;
+  text-decoration: none;
+  font-size: 1.2em;
+  color: #fff;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.adBtn {
+  font-size: 1.2em;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  padding: 3px 5px 3px 5px;
+  margin-top: 20px;
+}
 
 #myUL {
   /* Remove default list styling */
@@ -41,6 +113,11 @@ code {
 @font-face {
   font-family: dirtyHeadline;
   src: url("./fonts/headline.ttf");
+}
+
+@font-face {
+  font-family: horror;
+  src: url(./fonts/HorrorFont-Regular.ttf);
 }
 
 .subscribe {
@@ -74,6 +151,17 @@ code {
   }
   100% {
     transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
     opacity: 1;
   }
 }
@@ -194,5 +282,28 @@ editorText:hover {
 @media only screen and (max-width: 700px) {
   h1 {
     font-size: 3rem !important;
+  }
+
+  .adSpace{
+    width: 150px;
+    height: 150px;
+  }
+
+  .adText {
+    font-size: 1em;
+  }
+
+  .adText2 {
+    font-size: 1em;
+  }
+
+  .adSpace2 {
+    width: 150px;
+    height: 150px;
+    top: 320px;
+  }
+
+  .adBtn {
+    font-size: .75em;
   }
 }

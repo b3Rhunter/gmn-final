@@ -407,6 +407,24 @@ function App(props) {
 
   return (
     <div className="App background">
+
+    <div className="adSpace">
+      <a href="https://spookynewsies.xyz">
+        <div className="adImage">
+        </div>
+        <p className="adText">Spooky Newsies</p>
+      </a>
+    </div>
+
+    <div className="adSpace2">
+  
+        <p className="adText2">Your</p>
+        <p className="adText2">Ad Here</p>
+        <button className="adBtn">Mint Ad Space</button>
+    
+    </div>
+
+
       {/* ✏️ Edit the header and change the title to your project name */}
       <Header>
         {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
@@ -495,7 +513,7 @@ function App(props) {
           console.log("awaiting metamask/web3 confirm result...", result);
           console.log(await result);
         }}
-        okText="Mint(BETA)"
+        okText="Mint Issue"
         onCancel={() => {
           setOpen(!open);
         }}
