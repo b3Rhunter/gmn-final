@@ -407,19 +407,18 @@ function App(props) {
 
   return (
     <div className="App background">
-
     <div className="adSpace">
-      <a href="https://spookynewsies.xyz">
+      <a href="https://spookynewsies.xyz" target="_blank" rel="noreferrer">
         <div className="adImage">
         </div>
-        <p className="adText">Spooky Newsies</p>
+        <h6 className="adText">Spooky Newsies</h6>
       </a>
     </div>
 
     <div className="adSpace2">
   
-        <p className="adText2">Your</p>
-        <p className="adText2">Ad Here</p>
+        <h6 className="adText2">Your</h6>
+        <h6 className="adText2">Ad Here</h6>
         <button className="adBtn">Mint Ad Space</button>
     
     </div>
