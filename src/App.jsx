@@ -407,6 +407,7 @@ function App(props) {
 
   return (
     <div className="App background">
+
     <div className="adSpace">
       <a href="https://spookynewsies.xyz" target="_blank" rel="noreferrer">
         <div className="adImage">
@@ -489,13 +490,13 @@ function App(props) {
           const story = document.title = document.getElementsByTagName("p")[0][getStory];
           console.log(story)
 
-          const contract = new ethers.Contract("0x9f57701f08a502FAb3dF6AcE93B63910D3076E32", newGmn, userSigner);
-          const result = tx(contract.mint("" + story, "" + headline), update => {
+          const contract = new ethers.Contract("0x1e1Fe076846B0118B39D54AA565c5dEbdB4a8591", newGmn, userSigner);
+          const result = tx(contract.CreateNewIssue("" + story, "" + headline, "0xBC72198d65075Fdad2CA7B8db79EfF5B51c8B30D"), update => {
             console.log("📡 Transaction Update:", update);
             if (update && (update.status === "confirmed" || update.status === 1)) {
               sendNotification("success", {
                 message: "Minted",
-                description: `🙏Thank you for minting an issue of Good Morning News🙏`,
+                description: `Thank you for minting an issue of Good Morning News🙏`,
               });
               console.log(" 🍾 Transaction " + update.hash + " finished!");
               console.log(
