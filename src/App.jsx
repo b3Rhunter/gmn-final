@@ -490,7 +490,7 @@ function App(props) {
           const story = document.title = document.getElementsByTagName("p")[0][getStory];
           console.log(story)
 
-          const contract = new ethers.Contract("0x1e1Fe076846B0118B39D54AA565c5dEbdB4a8591", newGmn, userSigner);
+          const contract = new ethers.Contract("0x5eEAD112B4A412799c95d18CD995f55860626BD5", newGmn, userSigner);
           const result = tx(contract.CreateNewIssue("" + story, "" + headline, address), update => {
             console.log("📡 Transaction Update:", update);
             if (update && (update.status === "confirmed" || update.status === 1)) {
