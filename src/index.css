@@ -277,6 +277,50 @@ editorText:hover {
   -webkit-text-fill-color: transparent;
 }
 
+.discordContainer {
+  position: fixed;
+  top: 225px;
+  left: 0px;
+  margin-left: -10px;
+  transform: rotate(90deg);
+  background-color: rgba(0, 0, 0, 0.33);
+  padding: 5px;
+  padding-bottom: 13px;
+  padding-top: 3px;
+  border-top-right-radius: 7px;
+  border-top-left-radius: 7px;
+  border: 1px solid #fff;
+  transition: transform .2s;
+  z-index: 1000;
+  animation: 1.75s ease-out 0s 1 slideInFromLeft;
+}
+
+.discordContainer:hover {
+  transform: scale(1.1) rotate(90deg);
+}
+
+.twitterContainer {
+  position: fixed;
+  top: 175px;
+  left: 0px;
+  margin-left: -10px;
+  transform: rotate(90deg);
+  background-color: rgba(0, 0, 0, 0.33);
+  padding: 5px;
+  padding-bottom: 13px;
+  padding-top: 3px;
+  border-top-right-radius: 7px;
+  border-top-left-radius: 7px;
+  border: 1px solid #fff;
+  transition: transform .2s;
+  z-index: 1000;
+  animation: 1.25s ease-out 0s 1 slideInFromLeft;
+}
+
+.twitterContainer:hover {
+  transform: scale(1.1) rotate(90deg);
+}
+
 .web3modal-modal-lightbox { z-index: 1000 !important; }
 
 @media only screen and (max-width: 700px) {

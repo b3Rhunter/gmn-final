@@ -26,15 +26,8 @@ import gmnabi from "./gmnabi.json";
 import imageUrlBuilder from "@sanity/image-url";
 
 import MailchimpSubscribe from "react-mailchimp-subscribe";
-import { ConsoleSqlOutlined } from "@ant-design/icons";
-
-
-
-
-
-
-
-
+import twitterLogo from "./images/twitterLogo.svg";
+import discordLogo from "./images/discordLogo.svg";
 
 const CustomForm = ({ status, message, onValidated }) => {
 
@@ -423,6 +416,26 @@ function App(props) {
         <button className="adBtn">Mint Ad Space</button>
     
     </div>
+
+    <div className="twitterContainer">
+            <a href="https://twitter.com/GMN_NFT" target="_blank" rel="noreferrer">
+              <img 
+              src={twitterLogo}
+              alt="twitter"
+              style={{width: "30px", height: "30px", transform: "rotate(-90deg)"}}
+              ></img>
+            </a>
+      </div>
+
+      <div className="discordContainer">
+            <a href="https://discord.gg/sZSJbsZeez" target="_blank" rel="noreferrer">
+              <img 
+              src={discordLogo}
+              alt="substack"
+              style={{width: "30px", height: "30px", transform: "rotate(-90deg)"}}
+              ></img>
+            </a>
+      </div>
 
 
       {/* ✏️ Edit the header and change the title to your project name */}
