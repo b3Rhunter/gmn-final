@@ -279,7 +279,7 @@ editorText:hover {
 
 .discordContainer {
   position: fixed;
-  top: 225px;
+  top: 240px;
   left: 0px;
   margin-left: -10px;
   transform: rotate(90deg);
@@ -301,7 +301,7 @@ editorText:hover {
 
 .twitterContainer {
   position: fixed;
-  top: 175px;
+  top: 192px;
   left: 0px;
   margin-left: -10px;
   transform: rotate(90deg);
