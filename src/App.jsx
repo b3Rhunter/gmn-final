@@ -401,14 +401,6 @@ function App(props) {
   return (
     <div className="App background">
 
-    <div className="adSpace">
-      <a href="https://spookynewsies.xyz" target="_blank" rel="noreferrer">
-        <div className="adImage">
-        </div>
-        <h6 className="adText">Spooky Newsies</h6>
-      </a>
-    </div>
-
     <div className="adSpace2">
   
         <h6 className="adText2">Your</h6>
