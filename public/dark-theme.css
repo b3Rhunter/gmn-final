@@ -15733,8 +15733,7 @@ table tr th.ant-table-selection-column .ant-radio-wrapper {
   font-feature-settings: "tnum";
   position: relative;
   top: 100px;
-  width: auto;
-  max-width: calc(100vw - 32px);
+  width: 95%;
   margin: 0 auto;
   padding: 0 0 24px;
 }
@@ -15801,7 +15800,7 @@ table tr th.ant-table-selection-column .ant-radio-wrapper {
   padding: 24px;
   font-size: 14px;
   line-height: 1.5715;
-  word-wrap: break-word;
+  width: 95%;
 }
 .ant-modal-footer {
   padding: 10px 16px;
@@ -15825,6 +15824,7 @@ table tr th.ant-table-selection-column .ant-radio-wrapper {
   display: inline-block;
   width: 0;
   height: 100%;
+  width: 95%;
   vertical-align: middle;
   content: "";
 }
@@ -15836,7 +15836,7 @@ table tr th.ant-table-selection-column .ant-radio-wrapper {
 }
 @media (max-width: 767px) {
   .ant-modal {
-    max-width: calc(100vw - 16px);
+    width: 95%;
     margin: 8px auto;
   }
   .ant-modal-centered .ant-modal {
@@ -23042,7 +23042,7 @@ h1.ant-typography {
   margin-bottom: 0.5em;
   color: rgba(255, 255, 255, 0.85);
   font-weight: 600;
-  font-size: 38px;
+  font-size: 5rem;
   line-height: 1.23;
 }
 .ant-typography h2,

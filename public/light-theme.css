@@ -639,6 +639,7 @@ template {
   left: 0;
   overflow: auto;
   outline: 0;
+  width: 95%;
   -webkit-overflow-scrolling: touch;
 }
 [class*="ant-"] input::-ms-clear,
@@ -15645,8 +15646,7 @@ table tr th.ant-table-selection-column .ant-radio-wrapper {
   font-feature-settings: "tnum";
   position: relative;
   top: 100px;
-  width: auto;
-  max-width: calc(100vw - 32px);
+  width: 95%;
   margin: 0 auto;
   padding: 0 0 24px;
 }
@@ -15748,7 +15748,7 @@ table tr th.ant-table-selection-column .ant-radio-wrapper {
 }
 @media (max-width: 767px) {
   .ant-modal {
-    max-width: calc(100vw - 16px);
+    width: 95%;
     margin: 8px auto;
   }
   .ant-modal-centered .ant-modal {
@@ -22815,7 +22815,7 @@ h1.ant-typography {
   margin-bottom: 0.5em;
   color: rgba(0, 0, 0, 0.85);
   font-weight: 600;
-  font-size: 38px;
+  font-size: 5rem;
   line-height: 1.23;
 }
 .ant-typography h2,
