@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography } from "antd";
 import Logo from "../images/bp_logo_pfp.png";
-
+import "../myCss.css";
 
 const { Title, Text } = Typography;
 

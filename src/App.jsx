@@ -1,4 +1,4 @@
-import { Col, Row, notification, Modal } from "antd";
+import { Col, Row, notification, Modal, Alert, Button } from "antd";
 import "antd/dist/antd.css";
 import {
   useBalance,
@@ -23,6 +23,7 @@ import "./myCss.css";
 import OnePost from "./OnePost";
 import newGmn from "./newGMN.json";
 import gmnabi from "./gmnabi.json";
+import ABI from "./ABI.json"
 import imageUrlBuilder from "@sanity/image-url";
 
 import MailchimpSubscribe from "react-mailchimp-subscribe";
@@ -273,6 +274,9 @@ function App(props) {
   const [isAuth, setIsAuth] = useState(false);
   const [isSigning, setIsSigning] = useState(false);
   const [open, setOpen] = useState();
+  const [subd, notSubd] = useState(false);
+  const [goMint, setMint] = useState(false);
+
 
   const builder = imageUrlBuilder(sanityClient);
   function urlFor(source) {
@@ -330,7 +334,7 @@ function App(props) {
       const isValid = await validateUser(message, address, signature);
 
       if (!isValid) {
-        throw new Error("You are not a GMN holder.");
+        throw new Error("Your are either not a holder or your subscription has expired.");
       }
 
       setIsAuth(isValid);
@@ -359,21 +363,27 @@ function App(props) {
 
     try {
       // validate token balance
-      const tokenAddress = "0xfD18418c4AEf8edcAfF3EFea4A4bE2cC1cF2E580";
-
-      const tokenContract = new ethers.Contract(tokenAddress, gmnabi, userSigner);
-
+      const tokenAddress = "0x12A0FA1A6029FF9b137b80Da429704A1251D5400";
+      const tokenContract = new ethers.Contract(tokenAddress, ABI, userSigner);
       const balance = await tokenContract.balanceOf(address);
-
-      return balance.gt(0);
+      const id = await tokenContract.tokenOfOwnerByIndex(address, "0");
+      const parsedId = Number(ethers.utils.hexlify(id));
+      const subCheck = await tokenContract.subCheck(parsedId);
+      console.log(subCheck)
+      console.log(parsedId)
+      console.log(balance)
+      if (subCheck === "Subscribed") {
+        return balance.gt(0);
+      } else {
+        notSubd(true);
+      }
     } catch (error) {
+      setMint(true);
       console.log(error);
-
       return false;
     }
+
   };
-
-
 
    function search() {
     // Declare variables
@@ -396,11 +406,10 @@ function App(props) {
   }
 
 
-
-
   return (
     <div className="App background">
 
+{/*
     <div className="adSpace2">
   
         <h6 className="adText2">Your</h6>
@@ -408,6 +417,7 @@ function App(props) {
         <button className="adBtn">Mint Ad Space</button>
     
     </div>
+*/}
 
     <div className="twitterContainer">
             <a href="https://twitter.com/GMN_NFT" target="_blank" rel="noreferrer">
@@ -460,8 +470,91 @@ function App(props) {
         </div>
       </Header>
 
+{goMint && (
+          <><div style={{ zIndex: 2, position: "fixed", left: 0, top: 60, padding: 16 }}>
+          <Alert
+            message="⚠️ Mint New Subscription"
+            description={<div>
+              
+              <Button
+                onClick={async () => {
+                  const contract = new ethers.Contract("0x12A0FA1A6029FF9b137b80Da429704A1251D5400", ABI, userSigner);
+                  const cost = contract.cost();
+                  const result = tx(contract.mint( { value: cost }), update => {
+                    console.log("📡 Transaction Update:", update);
+                    if (update && (update.status === "confirmed" || update.status === 1)) {
+                      setIsAuth(true);
+                      setMint(false);
+                      sendNotification("success", {
+                        message: "Minted",
+                        description: `You can now view any article of your choice.`,
+                      });
+                      console.log(" 🍾 Transaction " + update.hash + " finished!");
+                      console.log(
+                        " ⛽️ " +
+                          update.gasUsed +
+                          "/" +
+                          (update.gasLimit || update.gas) +
+                          " @ " +
+                          parseFloat(update.gasPrice) / 1000000000 +
+                          " gwei",
+                      );
+                    }
+                  });
+                  console.log("awaiting metamask/web3 confirm result...", result);
+                  console.log(await result);
+                }}>
+                <b>Mint</b>
+              </Button>
+            </div>}
+            type="success"
+            closable={false} />
+        </div></>
+)}
 
-
+{subd && (
+        <><div style={{ zIndex: 2, position: "fixed", right: 0, top: 60, padding: 16 }}>
+            <Alert
+              message="⚠️ Your Subscription Has Expired!"
+              description={<div>
+                Please burn your current token...
+                <Button
+                  onClick={async () => {
+                    const contract = new ethers.Contract("0x12A0FA1A6029FF9b137b80Da429704A1251D5400", ABI, userSigner);
+                    const id = await contract.tokenOfOwnerByIndex(address, "0");
+                    const parsedId = Number(ethers.utils.hexlify(id));
+                    const result = tx(contract.burn(parsedId), update => {
+                      console.log("📡 Transaction Update:", update);
+                      if (update && (update.status === "confirmed" || update.status === 1)) {
+                        setMint(true);
+                        notSubd(false);
+                        sendNotification("success", {
+                          message: "Burned!",
+                          description: `Old subscription burned. Please mint new token to renew subscription.`,
+                        });
+                        console.log(" 🍾 Transaction " + update.hash + " finished!");
+                        console.log(
+                          " ⛽️ " +
+                          update.gasUsed +
+                          "/" +
+                          (update.gasLimit || update.gas) +
+                          " @ " +
+                          parseFloat(update.gasPrice) / 1000000000 +
+                          " gwei"
+                        );
+                      }
+                    });
+                    console.log("awaiting metamask/web3 confirm result...", result);
+                    console.log(await result);
+                  }}>
+                  <b>Burn!</b>
+                </Button>
+              </div>}
+              type="error"
+              closable={false} />
+          </div></>
+  )
+}
 
 
 {isAuth && (
@@ -533,50 +626,6 @@ function App(props) {
         </Row>
       </Modal>
 
-      <button
-        className="mint"
-        onClick={async () => {
-          /* look how you call setPurpose on your contract: */
-          /* notice how you pass a call back for tx updates too */
-          const contract = new ethers.Contract("0xfD18418c4AEf8edcAfF3EFea4A4bE2cC1cF2E580", gmnabi, userSigner);
-
-          const cost = contract.cost();
-          const result = tx(contract.mint(1, { value: cost }), update => {
-            console.log("📡 Transaction Update:", update);
-            if (update && (update.status === "confirmed" || update.status === 1)) {
-              sendNotification("success", {
-                message: "Minted",
-                description: `You can now view any article of your choice.`,
-              });
-              console.log(" 🍾 Transaction " + update.hash + " finished!");
-              console.log(
-                " ⛽️ " +
-                  update.gasUsed +
-                  "/" +
-                  (update.gasLimit || update.gas) +
-                  " @ " +
-                  parseFloat(update.gasPrice) / 1000000000 +
-                  " gwei",
-              );
-            }
-          });
-          console.log("awaiting metamask/web3 confirm result...", result);
-          console.log(await result);
-        }}
-        style={{
-          position: "fixed",
-          bottom: "10px",
-          left: "10px",
-          display: "block",
-          width: "auto",
-          cursor: "pointer",
-          zIndex: "10",
-        }}
-        type="default"
-      >
-        Mint
-      </button>
-
       <a
         href="https://gmn-german-final.vercel.app/"
         target="_blank"
@@ -588,7 +637,7 @@ function App(props) {
           style={{
             position: "fixed",
             bottom: "10px",
-            left: "100px",
+            left: "24px",
             display: "block",
             width: "auto",
             cursor: "pointer",
