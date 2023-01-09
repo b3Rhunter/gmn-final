@@ -275,7 +275,7 @@ function App(props) {
   useEffect(() => {
     sanityClient
       .fetch(
-        `*[_type == "post"] | order(publishedAt desc){
+        `*[_type == "post"] | order(publishedAt desc) [0..5]{
             title,
             slug,
             publishedAt,
@@ -388,6 +388,29 @@ function App(props) {
     }
   }
 
+  function loadAll() {
+   
+      sanityClient
+        .fetch(
+          `*[_type == "post"] | order(publishedAt desc){
+              title,
+              slug,
+              publishedAt,
+              "name": author->name,
+              "authorImage": author->image,
+              mainImage{
+                asset->{
+                  _id,
+                  url
+                }
+              }
+            }`
+        )
+        .then((data) => setAllPosts(data))
+        .catch(console.error);
+     ;
+  }
+
   return (
     <div className="App background">
       {/*
@@ -432,9 +455,8 @@ function App(props) {
         </a>
       </div>
 
-      {/* ✏️ Edit the header and change the title to your project name */}
       <Header>
-        {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
+  
         <div
           style={{
             position: "relative",
@@ -757,13 +779,12 @@ function App(props) {
         </div>
       </div>
 
-      <div className="min-h-screen p-12">
-        <div className="container mx-auto">
-          <div
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            id="allPosts"
-          >
-            {allPostsData &&
+
+
+<div className="min-h-screen p-12">
+<div className="container mx-auto">
+<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="allPosts">
+{allPostsData &&
               allPostsData.map((post, index) => (
                 <span
                   className="block h-64 relative rounded shadow leading-snug bg-black border-l-8 "
@@ -816,9 +837,13 @@ function App(props) {
                   </span>
                 </span>
               ))}
-          </div>
-        </div>
-      </div>
+</div>
+</div>
+</div>
+
+{isAuth && (
+<button className="glass" style={{margin: "auto", position: "relative", bottom: "10px", fontSize: "1.2em", padding: "3px 5px 3px 5px"}} onClick={loadAll}>Load All</button>
+)}
 
       <NetworkDisplay
         NETWORKCHECK={NETWORKCHECK}
