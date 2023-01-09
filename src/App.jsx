@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Col, Row, notification, Modal, Alert, Button } from "antd";
 import "antd/dist/antd.css";
 import {
@@ -8,9 +9,15 @@ import {
 } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState } from "react";
-import { Link, Route, Switch} from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom";
 import "./App.css";
-import { Account, Contract, Header, NetworkDisplay, NetworkSwitch } from "./components";
+import {
+  Account,
+  Contract,
+  Header,
+  NetworkDisplay,
+  NetworkSwitch,
+} from "./components";
 import { NETWORKS, INFURA_ID } from "./constants";
 import externalContracts from "./contracts/external_contracts";
 // contracts
@@ -22,53 +29,10 @@ import Logo from "./images/bp_logo_512.png";
 import "./myCss.css";
 import OnePost from "./OnePost";
 import newGmn from "./newGMN.json";
-import gmnabi from "./gmnabi.json";
-import ABI from "./ABI.json"
+import ABI from "./ABI.json";
 import imageUrlBuilder from "@sanity/image-url";
-
-import MailchimpSubscribe from "react-mailchimp-subscribe";
 import twitterLogo from "./images/twitterLogo.svg";
 import discordLogo from "./images/discordLogo.svg";
-
-const CustomForm = ({ status, message, onValidated }) => {
-
-  const sendNotification = (type, data) => {
-    return notification[type]({
-      ...data,
-      placement: "bottomRight",
-    });
-  };
-
-  let email;
-  const submit = () =>
-    email &&
-    email.value.indexOf("@") > -1 &&
-    onValidated({
-      EMAIL: email.value
-    });
-
-    return (
-      <div>
-     
-        {status === "success" && 
-                sendNotification("success", {
-                  message: "Subscribed!",
-                  description: `Thank you for subscribing to Good Morning News`,
-                })
-        }
-        <input
-          style={{ fontSize: "1em", padding: 5, borderRadius: "5px", backgroundColor: "rgba(255,255,255,0.1)", marginRight: "5px" }}
-          ref={node => (email = node)}
-          type="email"
-          placeholder="email"
-        />
-
-        <button className="sub-btn" style={{ fontSize: "1em", padding: 5, marginTop: "10px", border: "1px solid #fff", borderRadius: "10px" }} onClick={submit}>
-          Subscribe
-        </button>
-      </div>
-    );
-  };
 
 const { ethers } = require("ethers");
 /*
@@ -117,7 +81,6 @@ function App(props) {
   const [address, setAddress] = useState();
   const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[0]);
 
-
   const targetNetwork = NETWORKS[selectedNetwork];
 
   // 🔭 block explorer URL
@@ -125,7 +88,9 @@ function App(props) {
 
   // load all your providers
   const localProvider = useStaticJsonRPC([
-    process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : targetNetwork.rpcUrl,
+    process.env.REACT_APP_PROVIDER
+      ? process.env.REACT_APP_PROVIDER
+      : targetNetwork.rpcUrl,
   ]);
   const mainnetProvider = useStaticJsonRPC(providers);
 
@@ -136,7 +101,11 @@ function App(props) {
 
   const logoutOfWeb3Modal = async () => {
     await web3Modal.clearCachedProvider();
-    if (injectedProvider && injectedProvider.provider && typeof injectedProvider.provider.disconnect == "function") {
+    if (
+      injectedProvider &&
+      injectedProvider.provider &&
+      typeof injectedProvider.provider.disconnect == "function"
+    ) {
       await injectedProvider.provider.disconnect();
     }
     setTimeout(() => {
@@ -150,7 +119,11 @@ function App(props) {
   /* 🔥 This hook will get the price of Gas from ⛽️ EtherGasStation */
   const gasPrice = useGasPrice(targetNetwork, "fast");
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
-  const userProviderAndSigner = useUserProviderAndSigner(injectedProvider, localProvider, USE_BURNER_WALLET);
+  const userProviderAndSigner = useUserProviderAndSigner(
+    injectedProvider,
+    localProvider,
+    USE_BURNER_WALLET
+  );
   const userSigner = userProviderAndSigner.signer;
 
   useEffect(() => {
@@ -164,9 +137,13 @@ function App(props) {
   }, [userSigner]);
 
   // You can warn the user if you would like them to be on a specific network
-  const localChainId = localProvider && localProvider._network && localProvider._network.chainId;
+  const localChainId =
+    localProvider && localProvider._network && localProvider._network.chainId;
   const selectedChainId =
-    userSigner && userSigner.provider && userSigner.provider._network && userSigner.provider._network.chainId;
+    userSigner &&
+    userSigner.provider &&
+    userSigner.provider._network &&
+    userSigner.provider._network.chainId;
 
   // For more hooks, check out 🔗eth-hooks at: https://www.npmjs.com/package/eth-hooks
 
@@ -194,10 +171,6 @@ function App(props) {
   // If you want to bring in the mainnet DAI contract it would look like:
   const mainnetContracts = useContractLoader(mainnetProvider, contractConfig);
 
-
-
-
-
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
   console.log("🏷 Resolved austingriffith.eth as:",addressFromENS)
@@ -218,13 +191,23 @@ function App(props) {
       writeContracts &&
       mainnetContracts
     ) {
-      console.log("_____________________________________ 🏗 scaffold-eth _____________________________________");
+      console.log(
+        "_____________________________________ 🏗 scaffold-eth _____________________________________"
+      );
       console.log("🌎 mainnetProvider", mainnetProvider);
       console.log("🏠 localChainId", localChainId);
       console.log("👩‍💼 selected address:", address);
       console.log("🕵🏻‍♂️ selectedChainId:", selectedChainId);
-      console.log("💵 yourLocalBalance", yourLocalBalance ? ethers.utils.formatEther(yourLocalBalance) : "...");
-      console.log("💵 yourMainnetBalance", yourMainnetBalance ? ethers.utils.formatEther(yourMainnetBalance) : "...");
+      console.log(
+        "💵 yourLocalBalance",
+        yourLocalBalance ? ethers.utils.formatEther(yourLocalBalance) : "..."
+      );
+      console.log(
+        "💵 yourMainnetBalance",
+        yourMainnetBalance
+          ? ethers.utils.formatEther(yourMainnetBalance)
+          : "..."
+      );
       console.log("📝 readContracts", readContracts);
       console.log("🌍 DAI contract on mainnet:", mainnetContracts);
 
@@ -246,7 +229,7 @@ function App(props) {
     const provider = await web3Modal.connect();
     setInjectedProvider(new ethers.providers.Web3Provider(provider));
 
-    provider.on("chainChanged", chainId => {
+    provider.on("chainChanged", (chainId) => {
       console.log(`chain changed to ${chainId}! updating providers`);
       setInjectedProvider(new ethers.providers.Web3Provider(provider));
     });
@@ -277,7 +260,6 @@ function App(props) {
   const [subd, notSubd] = useState(false);
   const [goMint, setMint] = useState(false);
 
-
   const builder = imageUrlBuilder(sanityClient);
   function urlFor(source) {
     return builder.image(source);
@@ -305,9 +287,9 @@ function App(props) {
                 url
               }
             }
-          }`,
+          }`
       )
-      .then(data => setAllPosts(data))
+      .then((data) => setAllPosts(data))
       .catch(console.error);
   }, []);
 
@@ -334,7 +316,9 @@ function App(props) {
       const isValid = await validateUser(message, address, signature);
 
       if (!isValid) {
-        throw new Error("Your are either not a holder or your subscription has expired.");
+        throw new Error(
+          "Your are either not a holder or your subscription has expired."
+        );
       }
 
       setIsAuth(isValid);
@@ -369,9 +353,9 @@ function App(props) {
       const id = await tokenContract.tokenOfOwnerByIndex(address, "0");
       const parsedId = Number(ethers.utils.hexlify(id));
       const subCheck = await tokenContract.subCheck(parsedId);
-      console.log(subCheck)
-      console.log(parsedId)
-      console.log(balance)
+      console.log(subCheck);
+      console.log(parsedId);
+      console.log(balance);
       if (subCheck === "Subscribed") {
         return balance.gt(0);
       } else {
@@ -382,17 +366,16 @@ function App(props) {
       console.log(error);
       return false;
     }
-
   };
 
-   function search() {
+  function search() {
     // Declare variables
     var input, filter, ul, li, a, i, txtValue;
-    input = document.getElementById('myInput');
+    input = document.getElementById("myInput");
     filter = input.value;
     ul = document.getElementById("myUL");
-    li = ul.getElementsByTagName('li');
-  
+    li = ul.getElementsByTagName("li");
+
     // Loop through all list items, and hide those who don't match the search query
     for (i = 0; i < li.length; i++) {
       a = li[i].getElementsByTagName("a")[0];
@@ -405,11 +388,9 @@ function App(props) {
     }
   }
 
-
   return (
     <div className="App background">
-
-{/*
+      {/*
     <div className="adSpace2">
   
         <h6 className="adText2">Your</h6>
@@ -419,31 +400,48 @@ function App(props) {
     </div>
 */}
 
-    <div className="twitterContainer">
-            <a href="https://twitter.com/GMN_NFT" target="_blank" rel="noreferrer">
-              <img 
-              src={twitterLogo}
-              alt="twitter"
-              style={{width: "30px", height: "30px", transform: "rotate(-90deg)"}}
-              ></img>
-            </a>
+      <div className="twitterContainer">
+        <a href="https://twitter.com/GMN_NFT" target="_blank" rel="noreferrer">
+          <img
+            src={twitterLogo}
+            alt="twitter"
+            style={{
+              width: "30px",
+              height: "30px",
+              transform: "rotate(-90deg)",
+            }}
+          ></img>
+        </a>
       </div>
 
       <div className="discordContainer">
-            <a href="https://discord.gg/sZSJbsZeez" target="_blank" rel="noreferrer">
-              <img 
-              src={discordLogo}
-              alt="substack"
-              style={{width: "30px", height: "30px", transform: "rotate(-90deg)"}}
-              ></img>
-            </a>
+        <a
+          href="https://discord.gg/sZSJbsZeez"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img
+            src={discordLogo}
+            alt="substack"
+            style={{
+              width: "30px",
+              height: "30px",
+              transform: "rotate(-90deg)",
+            }}
+          ></img>
+        </a>
       </div>
-
 
       {/* ✏️ Edit the header and change the title to your project name */}
       <Header>
         {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
-        <div style={{ position: "relative", display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <div style={{ display: "flex", flex: 1 }}>
             {USE_NETWORK_SELECTOR && (
               <div style={{ marginRight: 20 }}>
@@ -470,144 +468,195 @@ function App(props) {
         </div>
       </Header>
 
-{goMint && (
-          <><div style={{ zIndex: 2, position: "fixed", left: 0, top: 60, padding: 16 }}>
-          <Alert
-            message="⚠️ Mint New Subscription"
-            description={<div>
-              
-              <Button
-                onClick={async () => {
-                  const contract = new ethers.Contract("0x12A0FA1A6029FF9b137b80Da429704A1251D5400", ABI, userSigner);
-                  const cost = contract.cost();
-                  const result = tx(contract.mint( { value: cost }), update => {
-                    console.log("📡 Transaction Update:", update);
-                    if (update && (update.status === "confirmed" || update.status === 1)) {
-                      setIsAuth(true);
-                      setMint(false);
-                      sendNotification("success", {
-                        message: "Minted",
-                        description: `You can now view any article of your choice.`,
-                      });
-                      console.log(" 🍾 Transaction " + update.hash + " finished!");
-                      console.log(
-                        " ⛽️ " +
-                          update.gasUsed +
-                          "/" +
-                          (update.gasLimit || update.gas) +
-                          " @ " +
-                          parseFloat(update.gasPrice) / 1000000000 +
-                          " gwei",
+      {goMint && (
+        <>
+          <div
+            style={{
+              zIndex: 2,
+              position: "fixed",
+              left: 0,
+              top: 60,
+              padding: 16,
+            }}
+          >
+            <Alert
+              message="⚠️ Mint New Subscription"
+              description={
+                <div>
+                  <Button
+                    onClick={async () => {
+                      const contract = new ethers.Contract(
+                        "0x12A0FA1A6029FF9b137b80Da429704A1251D5400",
+                        ABI,
+                        userSigner
                       );
-                    }
-                  });
-                  console.log("awaiting metamask/web3 confirm result...", result);
-                  console.log(await result);
-                }}>
-                <b>Mint</b>
-              </Button>
-            </div>}
-            type="success"
-            closable={false} />
-        </div></>
-)}
+                      const cost = contract.cost();
+                      const result = tx(
+                        contract.mint({ value: cost }),
+                        (update) => {
+                          console.log("📡 Transaction Update:", update);
+                          if (
+                            update &&
+                            (update.status === "confirmed" ||
+                              update.status === 1)
+                          ) {
+                            setIsAuth(true);
+                            setMint(false);
+                            sendNotification("success", {
+                              message: "Minted",
+                              description: `You can now view any article of your choice.`,
+                            });
+                            console.log(
+                              " 🍾 Transaction " + update.hash + " finished!"
+                            );
+                            console.log(
+                              " ⛽️ " +
+                                update.gasUsed +
+                                "/" +
+                                (update.gasLimit || update.gas) +
+                                " @ " +
+                                parseFloat(update.gasPrice) / 1000000000 +
+                                " gwei"
+                            );
+                          }
+                        }
+                      );
+                      console.log(
+                        "awaiting metamask/web3 confirm result...",
+                        result
+                      );
+                      console.log(await result);
+                    }}
+                  >
+                    <b>Mint</b>
+                  </Button>
+                </div>
+              }
+              type="success"
+              closable={false}
+            />
+          </div>
+        </>
+      )}
 
-{subd && (
-        <><div style={{ zIndex: 2, position: "fixed", right: 0, top: 60, padding: 16 }}>
+      {subd && (
+        <>
+          <div
+            style={{
+              zIndex: 2,
+              position: "fixed",
+              right: 0,
+              top: 60,
+              padding: 16,
+            }}
+          >
             <Alert
               message="⚠️ Your Subscription Has Expired!"
-              description={<div>
-                Please burn your current token...
-                <Button
-                  onClick={async () => {
-                    const contract = new ethers.Contract("0x12A0FA1A6029FF9b137b80Da429704A1251D5400", ABI, userSigner);
-                    const id = await contract.tokenOfOwnerByIndex(address, "0");
-                    const parsedId = Number(ethers.utils.hexlify(id));
-                    const result = tx(contract.burn(parsedId), update => {
-                      console.log("📡 Transaction Update:", update);
-                      if (update && (update.status === "confirmed" || update.status === 1)) {
-                        setMint(true);
-                        notSubd(false);
-                        sendNotification("success", {
-                          message: "Burned!",
-                          description: `Old subscription burned. Please mint new token to renew subscription.`,
-                        });
-                        console.log(" 🍾 Transaction " + update.hash + " finished!");
-                        console.log(
-                          " ⛽️ " +
-                          update.gasUsed +
-                          "/" +
-                          (update.gasLimit || update.gas) +
-                          " @ " +
-                          parseFloat(update.gasPrice) / 1000000000 +
-                          " gwei"
-                        );
-                      }
-                    });
-                    console.log("awaiting metamask/web3 confirm result...", result);
-                    console.log(await result);
-                  }}>
-                  <b>Burn!</b>
-                </Button>
-              </div>}
+              description={
+                <div>
+                  Please burn your current token...
+                  <Button
+                    onClick={async () => {
+                      const contract = new ethers.Contract(
+                        "0x12A0FA1A6029FF9b137b80Da429704A1251D5400",
+                        ABI,
+                        userSigner
+                      );
+                      const id = await contract.tokenOfOwnerByIndex(
+                        address,
+                        "0"
+                      );
+                      const parsedId = Number(ethers.utils.hexlify(id));
+                      const result = tx(contract.burn(parsedId), (update) => {
+                        console.log("📡 Transaction Update:", update);
+                        if (
+                          update &&
+                          (update.status === "confirmed" || update.status === 1)
+                        ) {
+                          setMint(true);
+                          notSubd(false);
+                          sendNotification("success", {
+                            message: "Burned!",
+                            description: `Old subscription burned. Please mint new token to renew subscription.`,
+                          });
+                          console.log(
+                            " 🍾 Transaction " + update.hash + " finished!"
+                          );
+                          console.log(
+                            " ⛽️ " +
+                              update.gasUsed +
+                              "/" +
+                              (update.gasLimit || update.gas) +
+                              " @ " +
+                              parseFloat(update.gasPrice) / 1000000000 +
+                              " gwei"
+                          );
+                        }
+                      });
+                      console.log(
+                        "awaiting metamask/web3 confirm result...",
+                        result
+                      );
+                      console.log(await result);
+                    }}
+                  >
+                    <b>Burn!</b>
+                  </Button>
+                </div>
+              }
               type="error"
-              closable={false} />
-          </div></>
-  )
-}
-
-
-{isAuth && (
-      <><div className="subscribe">
-          <MailchimpSubscribe
-            url="https://gmail.us21.list-manage.com/subscribe/post?u=9dac44c0db4dc93dfe2c9fec9&id=d51751ba11"
-            render={({ subscribe, status, message }) => (
-              <CustomForm
-                status={status}
-                message={message}
-                onValidated={formData => subscribe(formData)} />
-            )} />
-        </div><div className="editorContainer">
-            <a href="https://gmn-sanity.vercel.app/" target="_blank" rel="noreferrer">
-              <h6 className="editorText">Editors</h6>
-            </a>
-          </div></>
-      
-)}
+              closable={false}
+            />
+          </div>
+        </>
+      )}
 
       <Modal
         id="singleModal"
         visible={open}
-        onOk={ async () => {
+        onOk={async () => {
+          var getHeadline =
+            "textContent" in document.body ? "textContent" : "innerText";
+          const headline = (document.title =
+            document.getElementsByTagName("h1")[0][getHeadline]);
+          console.log(headline);
 
-          var getHeadline = "textContent" in document.body ? "textContent" : "innerText";
-          const headline = document.title = document.getElementsByTagName("h1")[0][getHeadline];
-          console.log(headline)
+          var getStory =
+            "textContent" in document.body ? "textContent" : "innerText";
+          const story = (document.title =
+            document.getElementsByTagName("p")[0][getStory]);
+          console.log(story);
 
-          var getStory = "textContent" in document.body ? "textContent" : "innerText";
-          const story = document.title = document.getElementsByTagName("p")[0][getStory];
-          console.log(story)
-
-          const contract = new ethers.Contract("0x5eEAD112B4A412799c95d18CD995f55860626BD5", newGmn, userSigner);
-          const result = tx(contract.CreateNewIssue("" + story, "" + headline, address), update => {
-            console.log("📡 Transaction Update:", update);
-            if (update && (update.status === "confirmed" || update.status === 1)) {
-              sendNotification("success", {
-                message: "Minted",
-                description: `Thank you for minting an issue of Good Morning News🙏`,
-              });
-              console.log(" 🍾 Transaction " + update.hash + " finished!");
-              console.log(
-                " ⛽️ " +
-                  update.gasUsed +
-                  "/" +
-                  (update.gasLimit || update.gas) +
-                  " @ " +
-                  parseFloat(update.gasPrice) / 1000000000 +
-                  " gwei",
-              );
+          const contract = new ethers.Contract(
+            "0x5eEAD112B4A412799c95d18CD995f55860626BD5",
+            newGmn,
+            userSigner
+          );
+          const result = tx(
+            contract.CreateNewIssue("" + story, "" + headline, address),
+            (update) => {
+              console.log("📡 Transaction Update:", update);
+              if (
+                update &&
+                (update.status === "confirmed" || update.status === 1)
+              ) {
+                sendNotification("success", {
+                  message: "Minted",
+                  description: `Thank you for minting an issue of Good Morning News🙏`,
+                });
+                console.log(" 🍾 Transaction " + update.hash + " finished!");
+                console.log(
+                  " ⛽️ " +
+                    update.gasUsed +
+                    "/" +
+                    (update.gasLimit || update.gas) +
+                    " @ " +
+                    parseFloat(update.gasPrice) / 1000000000 +
+                    " gwei"
+                );
+              }
             }
-          });
+          );
           console.log("awaiting metamask/web3 confirm result...", result);
           console.log(await result);
         }}
@@ -621,7 +670,6 @@ function App(props) {
         <Row>
           <Col>
             <Route component={OnePost} path="/:slug" />
-    
           </Col>
         </Row>
       </Modal>
@@ -651,7 +699,12 @@ function App(props) {
 
       <div className=" p-12 mobile" style={{ marginBottom: "0px" }}>
         <div className="container mx-auto">
-          <img className=" logo" style={{ paddingTop: "100px" }} src={Logo} alt="logo"></img>
+          <img
+            className=" logo"
+            style={{ paddingTop: "100px" }}
+            src={Logo}
+            alt="logo"
+          ></img>
 
           <button
             className="verify"
@@ -669,35 +722,47 @@ function App(props) {
             Verify
           </button>
 
- 
           {isAuth && (
-        
-          <><input type="text" id="myInput" onKeyUp={search} className="searchBar" placeholder="Search..."></input><div>
-              <ul id="myUL">
-                {allPostsData &&
-                  allPostsData.map((post, index) => (
-                    <li style={{ display: "none" }}>
-                      <Link to={"/" + post.slug.current} key={post.slug.current}>
-                        <a
-                          onClick={() => {
-                            setOpen(!open);
-                          } }>
-                          {post.title}
-                        </a>
-                      </Link>
-                    </li>
-                  ))}
-              </ul>
-            </div></>
-      
+            <>
+              <input
+                type="text"
+                id="myInput"
+                onKeyUp={search}
+                className="searchBar"
+                placeholder="Search..."
+              ></input>
+              <div>
+                <ul id="myUL">
+                  {allPostsData &&
+                    allPostsData.map((post, index) => (
+                      <li style={{ display: "none" }}>
+                        <Link
+                          to={"/" + post.slug.current}
+                          key={post.slug.current}
+                        >
+                          <button
+                            onClick={() => {
+                              setOpen(!open);
+                            }}
+                          >
+                            {post.title}
+                          </button>
+                        </Link>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            </>
           )}
-
         </div>
       </div>
 
       <div className="min-h-screen p-12">
         <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="allPosts">
+          <div
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            id="allPosts"
+          >
             {allPostsData &&
               allPostsData.map((post, index) => (
                 <span
@@ -728,15 +793,22 @@ function App(props) {
 
                     <span>
                       {isAuth && (
-                        <Link to={"/" + post.slug.current} key={post.slug.current}>
+                        <Link
+                          to={"/" + post.slug.current}
+                          key={post.slug.current}
+                        >
                           <button
                             onClick={() => {
                               setOpen(!open);
                             }}
                             className="view-btn"
-                            style={{ position: "absolute", left: "10px", bottom: "10px" }}
+                            style={{
+                              position: "absolute",
+                              left: "10px",
+                              bottom: "10px",
+                            }}
                           >
-                            view
+                            VIEW
                           </button>
                         </Link>
                       )}
